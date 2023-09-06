@@ -56,6 +56,24 @@ Proof.
     - simpl. rewrite -> IHa'. rewrite -> plus_a_Sb. reflexivity.
 Qed.
 
+Theorem mult_0_plus' : forall n m : nat,
+    (n + 0 + 0) * m = n * m.
+Proof.
+    intros n m.
+    assert (H: n + 0 + 0 = n).
+        { Set Printing Parentheses. rewrite add_comm. simpl. rewrite add_comm. simpl. reflexivity. Unset Printing Parentheses. }
+    rewrite H. reflexivity.
+Qed.
+
+Theorem plus_rearrange_firsttry : forall n m p q : nat,
+    (n + m) + (p + q) = (m + n) + (p + q).
+Proof.
+    intros n m p q.
+    assert (H:  n + m = m + n ).
+    {rewrite add_comm. reflexivity. }
+    rewrite H. reflexivity.
+Qed.
+
 
 
 
