@@ -1,0 +1,3 @@
+-R theories SoftwareFundations
+theories/Induction.v
+theories/Lists.v

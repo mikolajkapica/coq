@@ -61,7 +61,8 @@ Theorem mult_0_plus' : forall n m : nat,
 Proof.
     intros n m.
     assert (H: n + 0 + 0 = n).
-        { Set Printing Parentheses. rewrite add_comm. simpl. rewrite add_comm. simpl. reflexivity. Unset Printing Parentheses. }
+        (*we can set paretheses by saying: [Set Printing Parentheses.]*)
+        {rewrite add_comm. simpl. rewrite add_comm. simpl. reflexivity. }
     rewrite H. reflexivity.
 Qed.
 
@@ -73,7 +74,3 @@ Proof.
     {rewrite add_comm. reflexivity. }
     rewrite H. reflexivity.
 Qed.
-
-
-
-

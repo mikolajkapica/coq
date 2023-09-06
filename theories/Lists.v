@@ -1,7 +1,4 @@
-From LF Require Export induction.
-Module NatList.
-
-
+Require Export SoftwareFundations.Induction.
 Inductive natprod : Type :=
     | pair (n1 n2 : nat).
 
@@ -192,13 +189,18 @@ Proof.
     - simpl. rewrite -> IHt. reflexivity.
 Qed.
 
-
-
 Theorem rev_length_firsttry : forall (lst : natlist),
     length (rev lst) = length lst.
 Proof.
     intros lst.
     induction lst as [| h t].
     - reflexivity.
-    - simpl. rewrite -> app_length. simpl. rewrite -> IHt. rewrite add_comm.
+    - simpl. 
+    rewrite -> app_length. 
+    simpl. 
+    rewrite -> IHt. 
+    rewrite -> add_comm. 
+    reflexivity. 
+Qed.
+
 
