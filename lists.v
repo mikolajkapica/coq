@@ -1,3 +1,7 @@
+From LF Require Export induction.
+Module NatList.
+
+
 Inductive natprod : Type :=
     | pair (n1 n2 : nat).
 
@@ -116,10 +120,85 @@ Definition hd (default : nat) (l : natlist) : nat :=
     | h :: t => h
     end.
 
+Definition tl (l : natlist) : natlist :=
+    match l with
+    | [] => []
+    | h :: t => t
+    end.
+
+Fixpoint last_element (l : natlist) : nat :=
+    match l with
+    | [] => 0 
+    | h :: nil => h
+    | _ :: t => last_element t
+    end.
+
+
+
 Compute hd 4 [].
+Compute hd 0 [1;2;3;4;5;6].
+Compute tl [].
+Compute tl [1;2;3;4;5;6].
+Compute last_element [1;2;3;4;5;6].
+Compute last_element [1;2;3;4;5;6].
+
+
+(** ############################## *)
+(*ep #27*)
+Theorem nil_app : forall (lst : natlist),
+    [] ++ lst = lst.
+Proof.
+    reflexivity. 
+Qed.
+
+Theorem tl_lenght_pred : forall (lst : natlist),
+    pred (length lst) = length (tl lst).
+Proof.
+    intros lst.
+    destruct lst as [| h t].
+    - reflexivity.
+    - reflexivity.
+Qed.
+
+Theorem app_asoc : forall (lst1 lst2 lst3 : natlist),
+    (lst1 ++ lst2) ++ lst3 = lst1 ++ (lst2 ++ lst3).
+Proof.
+    intros lst1 lst2 lst3.
+    induction lst1 as [| h1 t1].
+    - reflexivity.
+    - simpl. rewrite -> IHt1. reflexivity.
+Qed.
+
+Fixpoint rev (lst : natlist) : natlist :=
+    match lst with
+    | [] => []
+    | h :: t => rev t ++ [h]
+    end.
+
+Compute rev [1;2;3].
+
+Example test_rev1: rev [1;2;3] = [3;2;1].
+Proof. reflexivity. Qed.
+
+Example test_rev2: rev [] = [].
+Proof. reflexivity. Qed.
+
+Theorem app_length : forall (lst1 lst2 : natlist),
+    length (lst1 ++ lst2) = length lst1 + length lst2.
+Proof.
+    intros lst1 lst2.
+    induction lst1 as [| h t].
+    - reflexivity.
+    - simpl. rewrite -> IHt. reflexivity.
+Qed.
 
 
 
-
-
+Theorem rev_length_firsttry : forall (lst : natlist),
+    length (rev lst) = length lst.
+Proof.
+    intros lst.
+    induction lst as [| h t].
+    - reflexivity.
+    - simpl. rewrite -> app_length. simpl. rewrite -> IHt. rewrite add_comm.
 
