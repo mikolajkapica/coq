@@ -54,3 +54,72 @@ Proof.
     reflexivity.
 Qed.
 
+(* ######################################## *)
+(** * Lists of numbers *)
+Inductive natlist : Type :=
+    | nil
+    | cons (n : nat) (l : natlist).
+
+Definition mylist := cons 1 (cons 2 (cons 3 nil)).
+
+Notation "x :: l" := (cons x l)
+                        (at level 60, right associativity).
+
+Notation "[ ]" := nil.
+Notation "[ x ; .. ; y ]" := (cons x .. (cons y nil) ..).
+
+Definition mylist2 := 1 :: (2 :: (3 :: nil)).
+Definition mylist3 := 1 :: 2 :: 3 :: [].
+Definition mylist4 := [1;2;3].
+
+
+Fixpoint repeat (n count : nat) : natlist :=
+    match count with
+    | 0 => nil
+    | S count' => n :: (repeat n count')
+    end.
+
+Compute repeat 3 5.
+
+Fixpoint length (lst : natlist) : nat :=
+    match lst with
+    | [] => 0
+    | h :: t => S (length t)
+    end.
+
+Compute length (repeat 3 5).
+
+Fixpoint app (l1 l2 : natlist) : natlist :=
+    match l1 with
+    | [] => l2
+    | h :: t => h :: (app t l2)
+    end.
+
+Compute app [3;4;5] [6;7;8]. (*return [3;4;5;6;7;8]*)
+Compute app [3] [4;5;6]. (*returns [3;4;5;6]*)
+
+Notation "x ++ y" := (app x y)
+                    (right associativity, at level 60).
+
+Example test_app1: [1;2;3] ++ [4;5] = [1;2;3;4;5].
+Proof. simpl. reflexivity. Qed.
+
+Example test_app2: [] ++ [4;5] = [4;5].
+Proof. simpl. reflexivity. Qed.
+
+Example test_app3: [1;2;3] ++ [] = [1;2;3].
+Proof. simpl. reflexivity. Qed.
+
+Definition hd (default : nat) (l : natlist) : nat :=
+    match l with
+    | [] => default
+    | h :: t => h
+    end.
+
+Compute hd 4 [].
+
+
+
+
+
+
